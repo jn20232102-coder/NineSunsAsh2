@@ -2,20 +2,16 @@
 
 namespace NineSunsAsh.Weapons.Components
 {
-    /// <summary>
-    /// 武器spriteRenderer，武器外观数据
-    /// </summary>
     [System.Serializable]
     public class WeaponSpriteData : WeaponComponentData
     {
-        [Tooltip("武器基础贴图")] public Sprite weaponSprite;
-        
-        [Header("Visual Settings")]
-        [Tooltip("武器的视觉预制体 (包含SpriteRenderer, 粒子等)")]
-        public GameObject weaponVisualPrefab;
+        [Header("Visual Prefab (必填)")]
+        [Tooltip("武器的外观预制体。实例化后会挂载到 Player/Model 下。")]
+        public GameObject weaponVisualPrefab; 
         
         public override void InitializeAttackData(Weapon weapon)
         {
+            // 确保添加了 WeaponSprite 组件来处理这个 Prefab
             var component = weapon.gameObject.AddComponent<WeaponSprite>();
             weapon.AddComponent(component);
         }

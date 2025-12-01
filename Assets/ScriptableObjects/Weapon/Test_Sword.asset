@@ -17,6 +17,7 @@ MonoBehaviour:
   componentData:
   - rid: 7772783723580489729
   - rid: 8429461994410344448
+  - rid: 8429461998573715457
   references:
     version: 2
     RefIds:
@@ -24,8 +25,7 @@ MonoBehaviour:
       type: {class: WeaponSpriteData, ns: NineSunsAsh.Weapons.Components, asm: Assembly-CSharp}
       data:
         name: WeaponSpriteData
-        weaponSprite: {fileID: -1639983399, guid: 7a5eb90789192ca4cb3dd9cf4aa60fe3, type: 3}
-        weaponVisualPrefab: {fileID: 3131484427356519658, guid: 2b9bf0f8238ce2142bb15ec67ff0e9d7, type: 3}
+        weaponVisualPrefab: {fileID: 2982956604673144271, guid: 3742ab07cea967041b912aaf9dd389d2, type: 3}
     - rid: 8429461994410344448
       type: {class: WeaponSpriteTransformData, ns: NineSunsAsh.Weapons.Components, asm: Assembly-CSharp}
       data:
@@ -34,3 +34,13 @@ MonoBehaviour:
         endRotation: -30
         swingDuration: 0.2
         visualOffset: {x: -0.01, y: 0.02, z: -0.01}
+    - rid: 8429461998573715457
+      type: {class: WeaponSlashSpawnerData, ns: NineSunsAsh.Weapons.Components, asm: Assembly-CSharp}
+      data:
+        name: WeaponSlashSpawnerData
+        slashPrefab: {fileID: 3131484427356519658, guid: 2b9bf0f8238ce2142bb15ec67ff0e9d7, type: 3}
+        spawnOffset: {x: 0, y: -0.1, z: 0}
+        rotationOffset: {x: -40, y: 0, z: 0}
+        spawnScale: {x: 1.5, y: 1.5, z: 1.5}
+        damage: 10
+        knockback: 5

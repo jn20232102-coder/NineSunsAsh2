@@ -1,65 +1,45 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NineSunsAsh.Weapons.Components
 {
     public class WeaponSprite : WeaponComponentBase<WeaponSpriteData>
     {
-        private SpriteRenderer _weaponRenderer;
-        private Transform _baseSpriteTransform;
-        
         private GameObject _currentVisualInstance;
 
         protected override void Start()
         {
             base.Start();
             
-            // 必须有渲染器引用才能继续（SetCore必须成功）
-            if (weapon.BaseRenderer == null) return;
-            
-            _baseSpriteTransform = weapon.BaseRenderer.transform;
-            
-            // 优先级 1: 如果配置了预制体，使用预制体
-            if (data.weaponVisualPrefab != null)
+            // 如果核心引用缺失或数据没填，直接罢工
+            if (weapon.BaseRenderer == null || data.weaponVisualPrefab == null) 
             {
-                _currentVisualInstance = Instantiate(data.weaponVisualPrefab, _baseSpriteTransform, false);
+                Debug.LogWarning($"{weapon.name} 的 WeaponSprite 组件无法初始化！缺少 Renderer 或 Prefab。");
+                return;
             }
-            // 优先级 2: 如果没有预制体但有贴图，自动生成一个
-            else if (data.weaponSprite != null)
-            {
-                _currentVisualInstance = new GameObject($"{weapon.name}_GeneratedVisual");
-                _currentVisualInstance.transform.SetParent(_baseSpriteTransform, false);
-                
-                var sr = _currentVisualInstance.AddComponent<SpriteRenderer>();
-                sr.sprite = data.weaponSprite;
-            }
-            
-            // 通用设置：如果有生成的物体，进行位置和层级初始化
-            if (_currentVisualInstance != null)
-            {
-                _currentVisualInstance.transform.localPosition = Vector3.zero;
-                _currentVisualInstance.transform.localRotation = Quaternion.identity;
 
-                // 确保武器显示在角色上层
-                var weaponSr = _currentVisualInstance.GetComponentInChildren<SpriteRenderer>();
-                if (weaponSr != null)
-                {
-                    weaponSr.sortingOrder = weapon.BaseRenderer.sortingOrder + 1;
-                }
-                
-                // 缓存引用以便销毁
-                _weaponRenderer = weaponSr; 
+            // 1. 实例化：直接生成在 Model (BaseRenderer) 下面
+            _currentVisualInstance = Instantiate(data.weaponVisualPrefab, weapon.BaseRenderer.transform, false);
+
+            // 2. 归零：确保它相对于 Model 是归零的（位置完全由 Prefab 内部决定）
+            _currentVisualInstance.transform.localPosition = Vector3.zero;
+            _currentVisualInstance.transform.localRotation = Quaternion.identity;
+            _currentVisualInstance.transform.localScale = Vector3.one;
+
+            // 3. 层级管理：确保武器显示在角色前面
+            var weaponSr = _currentVisualInstance.GetComponentInChildren<SpriteRenderer>();
+            if (weaponSr != null)
+            {
+                weaponSr.sortingOrder = weapon.BaseRenderer.sortingOrder + 1;
             }
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            
-            // 武器销毁时，把生成的视觉物体也删掉，否则会残留
-            if (_weaponRenderer != null)
+            // 换武器时，销毁旧的 Visual 实例
+            if (_currentVisualInstance != null)
             {
-                Destroy(_weaponRenderer.gameObject);
+                Destroy(_currentVisualInstance);
             }
         }
     }
