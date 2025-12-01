@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8767e6a1607c2e042a8c4c8b33ae4041, type: 3}
+  m_Name: Fade Obstacle Config
+  m_EditorClassIdentifier: 
+  fadedValue: 0.5
+  fadeSpeed: 5
+  opaqueMaterial: {fileID: 2100000, guid: d4cf6c57ba5858549a0a4c99e783d292, type: 2}
+  transparentMaterial: {fileID: 2100000, guid: 60083ed577ebb4048977ac9e3040958d, type: 2}
